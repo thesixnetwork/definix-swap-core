@@ -1,9 +1,9 @@
 pragma solidity =0.5.16;
 
-import './interfaces/IPancakeERC20.sol';
+import './interfaces/IDefinixERC20.sol';
 import './libraries/SafeMath.sol';
 
-contract PancakeERC20 is IPancakeERC20 {
+contract DefinixERC20 is IDefinixERC20 {
     using SafeMath for uint;
 
     string public constant name = 'Definix LPs';
@@ -79,7 +79,7 @@ contract PancakeERC20 is IPancakeERC20 {
     }
 
     function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external {
-        require(deadline >= block.timestamp, 'Pancake: EXPIRED');
+        require(deadline >= block.timestamp, 'Definix: EXPIRED');
         bytes32 digest = keccak256(
             abi.encodePacked(
                 '\x19\x01',
@@ -88,7 +88,7 @@ contract PancakeERC20 is IPancakeERC20 {
             )
         );
         address recoveredAddress = ecrecover(digest, v, r, s);
-        require(recoveredAddress != address(0) && recoveredAddress == owner, 'Pancake: INVALID_SIGNATURE');
+        require(recoveredAddress != address(0) && recoveredAddress == owner, 'Definix: INVALID_SIGNATURE');
         _approve(owner, spender, value);
     }
 }
